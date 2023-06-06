@@ -15,7 +15,7 @@ The repository currently includes implementations of two RT-DeTR models:
 
 ## Note
 
-This is a reference implementation of RT-DeTR model using PyTorch. At the time of creating this repository, it is officially available only through the PaddlePaddle framework.
+This is a reference implementation of RT-DeTR model using PyTorch. At the time of creating this repository, RT-DeTR is officially available only through the PaddlePaddle framework.
 
 Kindly use this as a starting point to implement a fully-functional RT-DeTR model, using PyTorch framework.
 

@@ -1,4 +1,4 @@
-# RTDeTR Implementation using PyTorch
+# RT-DeTR Implementation using PyTorch
 
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
@@ -11,7 +11,7 @@ This repository contains a PyTorch implementation of the cutting-edge RT-DeTR (R
 The repository currently includes implementations of two RT-DeTR models:
 
 1. RT-DeTR-L    [DONE]
-2. RT-DeTR-X    [YET-TO-START]
+2. RT-DeTR-X    [PENDING]
 
 ## Note
 

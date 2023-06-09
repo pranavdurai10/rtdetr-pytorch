@@ -13,9 +13,10 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 import torchvision.transforms as transforms
+
 from torchvision.datasets import DataLoader
 from models.rtdetr_l import RTDeTRL
-
+from models.rtdetr_x import RTDeTRX
 
 # Set device: NVIDIA CUDA (or) CPU
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
@@ -28,7 +29,7 @@ batch_size = 16
 num_epochs = 10
 
 # Create the RTDETR model
-model = RTDeTRL(num_classes=num_classes, scales=scales)
+model = RTDeTRL(num_classes=num_classes, scales=scales) # Change to RTDeTRX for X-model
 model.to(device)
 
 # Define loss function

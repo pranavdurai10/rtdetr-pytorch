@@ -57,139 +57,18 @@ head:
 ///////////////////////////////////////////////////////////////////////////
 '''
 
-# Import necessary libraries
+# Import necessary libraries and class declarations
 import torch
 import torch.nn as nn
 
-class HGStem(nn.Module):
-    def __init__(self, in_channels, out_channels):
-        super(HGStem, self).__init__()
-        # Initialize the layers for HGStem
-        self.conv = nn.Conv2d(in_channels, out_channels, kernel_size=3, stride=1, padding=1)
-        self.bn = nn.BatchNorm2d(out_channels)
-        self.relu = nn.ReLU(inplace=True)
-
-    def forward(self, x):
-        # Implement the forward pass for HGStem
-        x = self.conv(x)
-        x = self.bn(x)
-        x = self.relu(x)
-        return x
-
-
-class HGBlock(nn.Module):
-    def __init__(self, in_channels, mid_channels, out_channels, num_repeats, *args):
-        super(HGBlock, self).__init__()
-        # Initialize the layers for HGBlock
-        self.layers = nn.ModuleList()
-        for _ in range(num_repeats):
-            self.layers.append(nn.Sequential(
-                nn.Conv2d(in_channels, mid_channels, kernel_size=1),
-                nn.BatchNorm2d(mid_channels),
-                nn.ReLU(inplace=True),
-                nn.Conv2d(mid_channels, out_channels, kernel_size=3, padding=1),
-                nn.BatchNorm2d(out_channels),
-                nn.ReLU(inplace=True)
-            ))
-
-    def forward(self, x):
-        # Implement the forward pass for HGBlock
-        for layer in self.layers:
-            x = layer(x)
-        return x
-
-
-class DWConv(nn.Module):
-    def __init__(self, in_channels, out_channels, kernel_size, stride, padding, bias):
-        super(DWConv, self).__init__()
-        # Initialize the layers for DWConv
-        self.conv = nn.Conv2d(in_channels, out_channels, kernel_size, stride, padding, groups=in_channels, bias=bias)
-        self.bn = nn.BatchNorm2d(out_channels)
-        self.relu = nn.ReLU(inplace=True)
-
-    def forward(self, x):
-        # Implement the forward pass for DWConv
-        x = self.conv(x)
-        x = self.bn(x)
-        x = self.relu(x)
-        return x
-
-
-class AIFI(nn.Module):
-    def __init__(self, in_channels, num_repeats):
-        super(AIFI, self).__init__()
-        # Initialize the layers for AIFI
-        self.layers = nn.ModuleList()
-        for _ in range(num_repeats):
-            self.layers.append(nn.Linear(in_channels, in_channels))
-
-    def forward(self, x):
-        # Implement the forward pass for AIFI
-        for layer in self.layers:
-            x = layer(x)
-        return x
-
-
-class Conv(nn.Module):
-    def __init__(self, in_channels, out_channels, kernel_size, stride, padding, bias):
-        super(Conv, self).__init__()
-        # Initialize the layers for Conv
-        self.conv = nn.Conv2d(in_channels, out_channels, kernel_size, stride, padding, bias=bias)
-        self.bn = nn.BatchNorm2d(out_channels)
-        self.relu = nn.ReLU(inplace=True)
-
-    def forward(self, x):
-        # Implement the forward pass for Conv
-        x = self.conv(x)
-        x = self.bn(x)
-        x = self.relu(x)
-        return x
-
-
-class Concat(nn.Module):
-    def __init__(self, indices, dim):
-        super(Concat, self).__init__()
-        # Initialize the layers for Concat
-        self.indices = indices
-        self.dim = dim
-
-    def forward(self, x):
-        # Implement the forward pass for Concat
-        concatenated = torch.cat([x[i] for i in self.indices], dim=self.dim)
-        return concatenated
-
-
-class RepC3(nn.Module):
-    def __init__(self, in_channels):
-        super(RepC3, self).__init__()
-        # Initialize the layers for RepC3
-        self.layers = nn.Sequential(
-            Conv(in_channels, in_channels, kernel_size=3, stride=1, padding=1, bias=False),
-            nn.BatchNorm2d(in_channels),
-            nn.ReLU(inplace=True),
-            Conv(in_channels, in_channels, kernel_size=3, stride=1, padding=1, bias=False),
-            nn.BatchNorm2d(in_channels),
-            nn.ReLU(inplace=True),
-            Conv(in_channels, in_channels, kernel_size=3, stride=1, padding=1, bias=False),
-            nn.BatchNorm2d(in_channels),
-            nn.ReLU(inplace=True)
-        )
-
-    def forward(self, x):
-        # Implement the forward pass for RepC3
-        return self.layers(x)
-
-
-class RTDETRDecoder(nn.Module):
-    def __init__(self, num_classes):
-        super(RTDETRDecoder, self).__init__()
-        # Initialize the layers for RTDETRDecoder
-        self.num_classes = num_classes
-
-    def forward(self, x):
-        # Implement the forward pass for RTDETRDecoder
-        return x
-
+from detr_layers.hgstem import HGStem
+from detr_layers.hgblock import HGBlock
+from detr_layers.dwconv import DWConv
+from detr_layers.aifi import AIFI
+from detr_layers.conv import Conv
+from detr_layers.concat import Concat
+from detr_layers.repc3 import RepC3
+from detr_layers.decoder import RTDETRDecoder
 
 class RTDeTRX(nn.Module):
     def __init__(self, num_classes):

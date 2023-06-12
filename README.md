@@ -1,4 +1,4 @@
-# RT-DeTR Implementation using PyTorch
+# Implementation of RT-DeTR using PyTorch Framework
 
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 

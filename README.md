@@ -10,8 +10,8 @@ This repository contains a PyTorch implementation of the cutting-edge RT-DeTR (R
 
 The repository currently includes implementations of two RT-DeTR models:
 
-1. RT-DeTR-L    [DONE]
-2. RT-DeTR-X    [DONE]
+1. RT-DeTR-L    
+2. RT-DeTR-X    
 
 ## Note
 

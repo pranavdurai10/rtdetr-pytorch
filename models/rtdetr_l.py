@@ -57,106 +57,14 @@ head:
 import torch
 import torch.nn as nn
 
-
-class HGStem(nn.Module):
-    def __init__(self, in_channels, out_channels):
-        super(HGStem, self).__init__()
-        self.conv = nn.Conv2d(in_channels, out_channels, kernel_size=3, stride=1, padding=1)
-        self.relu = nn.ReLU(inplace=True)
-
-    def forward(self, x):
-        x = self.conv(x)
-        x = self.relu(x)
-        return x
-
-
-class HGBlock(nn.Module):
-    def __init__(self, in_channels, out_channels, num_repeats):
-        super(HGBlock, self).__init__()
-        self.blocks = nn.ModuleList()
-        for _ in range(num_repeats):
-            self.blocks.append(nn.Sequential(
-                nn.Conv2d(in_channels, out_channels, kernel_size=3, stride=1, padding=1),
-                nn.ReLU(inplace=True)
-            ))
-            in_channels = out_channels
-
-    def forward(self, x):
-        for block in self.blocks:
-            x = block(x)
-        return x
-
-
-class DWConv(nn.Module):
-    def __init__(self, in_channels, kernel_size, stride, padding, relu=True):
-        super(DWConv, self).__init__()
-        self.conv = nn.Conv2d(
-            in_channels, in_channels, kernel_size=kernel_size, stride=stride, padding=padding,
-            groups=in_channels, bias=False
-        )
-        self.bn = nn.BatchNorm2d(in_channels)
-        self.relu = nn.ReLU(inplace=True) if relu else nn.Identity()
-
-    def forward(self, x):
-        x = self.conv(x)
-        x = self.bn(x)
-        x = self.relu(x)
-        return x
-
-
-class AIFI(nn.Module):
-    def __init__(self, in_channels, num_filters):
-        super(AIFI, self).__init__()
-        self.avgpool = nn.AdaptiveAvgPool2d(1)
-        self.fc = nn.Linear(in_channels, num_filters)
-        self.relu = nn.ReLU(inplace=True)
-
-    def forward(self, x):
-        x = self.avgpool(x)
-        x = torch.flatten(x, 1)
-        x = self.fc(x)
-        x = self.relu(x)
-        return x
-
-
-class Conv(nn.Module):
-    def __init__(self, in_channels, out_channels, kernel_size, relu=True):
-        super(Conv, self).__init__()
-        self.conv = nn.Conv2d(in_channels, out_channels, kernel_size, bias=False)
-        self.bn = nn.BatchNorm2d(out_channels)
-        self.relu = nn.ReLU(inplace=True) if relu else nn.Identity()
-
-    def forward(self, x):
-        x = self.conv(x)
-        x = self.bn(x)
-        x = self.relu(x)
-        return x
-
-
-class RepC3(nn.Module):
-    def __init__(self, in_channels):
-        super(RepC3, self).__init__()
-        self.conv1 = Conv(in_channels, in_channels // 2, 1)
-        self.conv2 = Conv(in_channels // 2, in_channels, 3)
-        self.conv3 = Conv(in_channels, in_channels // 2, 1)
-
-    def forward(self, x):
-        x = self.conv1(x)
-        x = self.conv2(x)
-        x = self.conv3(x)
-        return x
-
-
-class RTDETRDecoder(nn.Module):
-    def __init__(self, in_channels, num_classes):
-        super(RTDETRDecoder, self).__init__()
-        self.num_classes = num_classes
-        self.conv = nn.Conv2d(in_channels, self.num_classes, kernel_size=3, stride=1, padding=1)
-
-    def forward(self, x):
-        x = self.conv(x)
-        return x
-
+from detr_layers.hgstem import HGStem
+from detr_layers.hgblock import HGBlock
+from detr_layers.dwconv import DWConv
+from detr_layers.aifi import AIFI
+from detr_layers.conv import Conv
+from detr_layers.concat import Concat
+from detr_layers.repc3 import RepC3
+from detr_layers.decoder import RTDETRDecoder
 
 class RTDeTRL(nn.Module):
     def __init__(self, num_classes, scales):

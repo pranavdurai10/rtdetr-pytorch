@@ -1,6 +1,19 @@
 class HGBlock(nn.Module):
     def __init__(self, in_channels, mid_channels, out_channels, num_repeats, *args):
         super(HGBlock, self).__init__()
+        '''
+        HGBlock implementation.
+
+        params: 
+                in_channels (int): Number of input channels for the block.
+                mid_channels (int): Number of intermediate channels within the block.
+                out_channels (int): Number of output channels for the block.
+                num_repeats (int): Number of times the block should be repeated.
+                *args: Variable-length argument list for any additional arguments.
+        
+        variables:         
+                ModuleList (list): Holds sub-modules in a list. Used to store the layers. Used to store the layer of HGBlock.
+        '''
         # Initialize the layers for HGBlock
         self.layers = nn.ModuleList()
         for _ in range(num_repeats):

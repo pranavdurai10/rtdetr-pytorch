@@ -2,7 +2,7 @@ class Concat(nn.Module):
     def __init__(self, indices, dim):
         super(Concat, self).__init__()
         '''
-        Conv implementation. 
+        Concatenate implementation. 
 
         params:
                 indices (list or tuple): Indices of the tensors to concatenate.

@@ -15,7 +15,7 @@ class Conv(nn.Module):
         # Initialize the layers for Conv
         self.conv = nn.Conv2d(in_channels, out_channels, kernel_size, stride, padding, bias=bias)
         self.bn = nn.BatchNorm2d(out_channels)
-        self.relu = nn.ReLU(inplace=True)
+        self.relu = nn.SiLU(inplace=True)
 
     def forward(self, x):
         # Implement the forward pass for Conv

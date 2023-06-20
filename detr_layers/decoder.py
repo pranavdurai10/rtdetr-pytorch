@@ -94,7 +94,7 @@ class RTDETRDecoder(nn.Module):
     def __init__(self, num_classes):
         super(RTDETRDecoder, self).__init__()
         '''
-        RTDETRDecoder implementation.
+        RTDETR: Decoder implementation.
 
         params:
                 num_classes (int): Number of classes in the dataset.

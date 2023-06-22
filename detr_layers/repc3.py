@@ -25,5 +25,5 @@ class RepC3(nn.Module):
         )
 
     def forward(self, x):
-        # Implement the forward pass for RepC3
+        # Implement the forward pass for RepC3 layer
         return self.layers(x)
